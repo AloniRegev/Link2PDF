@@ -14,3 +14,9 @@ Automation to convert URL file from source directory to PDF file to target direc
     3. past the path in the `<path of wkhtmltopdf 'bin' directory\wkhtmltopdf.exe>` section in the code.
 2. Enter the path of the source folder where the url files are located in `<path of source directory>`.
 3. Enter the path of the target folder where the url files are located in `<path of target directory>`.
+
+## Run me:
+to run the code you need to pass the arguments below (Paths):
+1. Path of source directory.
+2. Path of target directory.
+3. Path of `wkhtmltopdf.exe` file.  
