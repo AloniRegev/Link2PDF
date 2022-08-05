@@ -1,12 +1,12 @@
 import os
 from os import path
+from sys import argv
+
 import pdfkit
 import time
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from shutil import move
-
-SOURCE_PATH=r"<path of source directory>"
 
 def pdfThat(name, input_path, output_path, PATH_wkhtmltopdf):
     option = {'encoding': 'UTF-8', 'enable-local-file-access': True}
@@ -30,11 +30,9 @@ def extractURL(path):
 
 class OnMyWatch:
     # Set the directory on watch
-    watchDirectory = SOURCE_PATH
-
-    def __init__(self):
+    def __init__(self, watchDirectory):
         self.observer = Observer()
-
+        self.watchDirectory=watchDirectory
     def run(self):
         event_handler = Handler()
         self.observer.schedule(event_handler, self.watchDirectory, recursive=True)
@@ -50,7 +48,6 @@ class OnMyWatch:
 
 
 class Handler(FileSystemEventHandler):
-
     @staticmethod
     def on_any_event(event):
         if event.is_directory:
@@ -60,12 +57,9 @@ class Handler(FileSystemEventHandler):
             # Event is created, you can process it now
             folder_file = SOURCE_PATH
             dir_list = os.listdir(folder_file)
-            PATH_wkhtmltopdf = r"<path of wkhtmltopdf 'bin' directory\wkhtmltopdf.exe>"
-            output_path = r"<path of target directory>"
             for file_name in dir_list:
                 if file_name.split('.')[-1] != "url":
                     continue
-                # print(file_name.split(".")[0])
                 input_path = path.join(folder_file, file_name)
                 pdfThat(file_name.split(".")[0], input_path, output_path, PATH_wkhtmltopdf)
                 if os.path.isfile(input_path):
@@ -74,7 +68,9 @@ class Handler(FileSystemEventHandler):
             # Event is modified, you can process it now
             print("File has deleted!")
 
-
 if __name__ == '__main__':
-    watch = OnMyWatch()
+    SOURCE_PATH = argv[1]  #source directory
+    output_path = argv[2]  #target directory
+    PATH_wkhtmltopdf = argv[3] #wkhtmltopdf.exe path in your computer
+    watch = OnMyWatch(SOURCE_PATH)
     watch.run()
