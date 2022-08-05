@@ -19,7 +19,6 @@ def pdfThat(name, input_path, output_path, PATH_wkhtmltopdf):
 
 
 def extractURL(path):
-    filename = r'C:\Users\regev\Desktop\Google.url'
     with open(path, "r", encoding='utf8') as infile:
         for line in infile:
             if (line.startswith('URL')):
@@ -30,7 +29,7 @@ def extractURL(path):
 
 class OnMyWatch:
     # Set the directory on watch
-    watchDirectory = r"C:\Users\regev\Desktop\מתכונים"
+    watchDirectory = r"<path of source directory>"
 
     def __init__(self):
         self.observer = Observer()
@@ -60,8 +59,8 @@ class Handler(FileSystemEventHandler):
             # Event is created, you can process it now
             folder_file = r"C:\Users\regev\Desktop\מתכונים"
             dir_list = os.listdir(folder_file)
-            PATH_wkhtmltopdf = r"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe"
-            output_path = r"C:\Users\regev\Desktop\New folder"
+            PATH_wkhtmltopdf = r"<path of wkhtmltopdf 'bin' directory\wkhtmltopdf.exe>"
+            output_path = r"<path of target directory>"
             for file_name in dir_list:
                 if file_name.split('.')[-1] != "url":
                     continue
