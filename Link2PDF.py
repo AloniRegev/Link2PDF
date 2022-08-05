@@ -6,6 +6,7 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from shutil import move
 
+SOURCE_PATH=r"<path of source directory>"
 
 def pdfThat(name, input_path, output_path, PATH_wkhtmltopdf):
     option = {'encoding': 'UTF-8', 'enable-local-file-access': True}
@@ -29,7 +30,7 @@ def extractURL(path):
 
 class OnMyWatch:
     # Set the directory on watch
-    watchDirectory = r"<path of source directory>"
+    watchDirectory = SOURCE_PATH
 
     def __init__(self):
         self.observer = Observer()
@@ -57,7 +58,7 @@ class Handler(FileSystemEventHandler):
 
         elif event.event_type == 'created' or event.event_type == 'modified':
             # Event is created, you can process it now
-            folder_file = r"C:\Users\regev\Desktop\מתכונים"
+            folder_file = SOURCE_PATH
             dir_list = os.listdir(folder_file)
             PATH_wkhtmltopdf = r"<path of wkhtmltopdf 'bin' directory\wkhtmltopdf.exe>"
             output_path = r"<path of target directory>"
