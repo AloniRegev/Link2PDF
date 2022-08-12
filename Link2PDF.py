@@ -7,6 +7,9 @@ import time
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from shutil import move
+import pywintypes
+from win10toast import ToastNotifier
+
 
 def pdfThat(name, input_path, output_path, PATH_wkhtmltopdf):
     option = {'encoding': 'UTF-8', 'enable-local-file-access': True}
@@ -32,15 +35,17 @@ class OnMyWatch:
     # Set the directory on watch
     def __init__(self, watchDirectory):
         self.observer = Observer()
-        self.watchDirectory=watchDirectory
+        self.watchDirectory = watchDirectory
+
     def run(self):
         event_handler = Handler()
         self.observer.schedule(event_handler, self.watchDirectory, recursive=True)
         self.observer.start()
         try:
             while True:
-                time.sleep(5)
+                time.sleep(60)
         except:
+            toast.show_toast("Link2PDF", "The program has stopped")
             self.observer.stop()
             print("Observer Stopped")
 
@@ -55,6 +60,7 @@ class Handler(FileSystemEventHandler):
 
         elif event.event_type == 'created' or event.event_type == 'modified':
             # Event is created, you can process it now
+            print("starting converting.")
             folder_file = SOURCE_PATH
             dir_list = os.listdir(folder_file)
             for file_name in dir_list:
@@ -64,13 +70,19 @@ class Handler(FileSystemEventHandler):
                 pdfThat(file_name.split(".")[0], input_path, output_path, PATH_wkhtmltopdf)
                 if os.path.isfile(input_path):
                     os.remove(input_path)
+                    toast.show_toast("Link2PDF", "\"{}\" has converted.".format(str(file_name.split(".")[0])))
         elif event.event_type == 'deleted':
-            # Event is modified, you can process it now
             print("File has deleted!")
 
+
 if __name__ == '__main__':
-    SOURCE_PATH = argv[1]  #source directory
-    output_path = argv[2]  #target directory
-    PATH_wkhtmltopdf = argv[3] #wkhtmltopdf.exe path in your computer
+    SOURCE_PATH = argv[1]  # source directory
+    output_path = argv[2]  # target directory
+    PATH_wkhtmltopdf = argv[3]  # wkhtmltopdf.exe path in your computer
+
+    print("Link2PDF now running.")
+    toast = ToastNotifier()
+    toast.show_toast("Link2PDF", "The program has started")
+
     watch = OnMyWatch(SOURCE_PATH)
     watch.run()
