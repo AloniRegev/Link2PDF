@@ -11,7 +11,6 @@ Automation to convert URL file from source directory to PDF file to target direc
 
 ## Run me:
 ### Befor your first run - find the `wkhtmltopdf.exe` path :
-Find the `wkhtmltopdf.exe` path 
 1. Install the `wkhtmltopdf` execution file.
 2. Navigate to the `wkhtmltopdf.exe` file directory were wkhtmltopdf is installd, it shuld be somting like `C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe`, or wherever you install `wkhtmltopdf`.
 
