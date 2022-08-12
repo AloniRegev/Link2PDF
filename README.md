@@ -9,13 +9,14 @@ Automation to convert URL file from source directory to PDF file to target direc
 5. pywintypes - `pip install pywin32`
 6. win10toast - `pip instal win10toast`
 
-## Befor your first run:
-Set the `wkhtmltopdf.exe` path 
-    1. Install the `wkhtmltopdf` execution file.
-    2. Navigate to the `wkhtmltopdf.exe` file directory were wkhtmltopdf is installd, it shuld be somting like `C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe`, or wherever you install `wkhtmltopdf`.
-
 ## Run me:
-to run the code you need to pass the arguments in the order mentiond below:
+### Befor your first run - find the `wkhtmltopdf.exe` path :
+Find the `wkhtmltopdf.exe` path 
+1. Install the `wkhtmltopdf` execution file.
+2. Navigate to the `wkhtmltopdf.exe` file directory were wkhtmltopdf is installd, it shuld be somting like `C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe`, or wherever you install `wkhtmltopdf`.
+
+
+### To run the code you need to pass the arguments in the order mentiond below:
 1. Path of source directory.
 2. Path of target directory.
 3. Path of `wkhtmltopdf.exe` file, for defalt path `"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe"`.  
