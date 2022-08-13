@@ -5,9 +5,8 @@ Automation to convert URL file from source directory to PDF file to target direc
 1. [wkhtmltopdf](https://wkhtmltopdf.org/downloads.html) execution file.
 2. pdfkit - `pip install pdfkit`
 3. watchdog - `pip install watchdog`
-4. shutil - `pip install pytest-shutil`
-5. pywintypes - `pip install pywin32`
-6. win10toast - `pip install win10toast`
+4. pywintypes - `pip install pywin32`
+5. win10toast - `pip install win10toast`
 
 ## Run me:
 **Befor your run the script make sure you have installd `wkhtmltopdf.exe` on your machine**
