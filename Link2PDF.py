@@ -11,9 +11,9 @@ import pywintypes
 from win10toast import ToastNotifier
 
 
-def pdfThat(name, input_path, output_path, PATH_wkhtmltopdf):
+def pdfThat(name, input_path, output_path):
     option = {'encoding': 'UTF-8', 'enable-local-file-access': True}
-    config = pdfkit.configuration(wkhtmltopdf=PATH_wkhtmltopdf)
+    config = pdfkit.configuration(wkhtmltopdf=r"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe")
     path_name = path.join(output_path,"PDF", name + ".pdf")
     path_default = path.join(output_path,"PDF", "temporary.pdf")
 
@@ -67,7 +67,15 @@ class Handler(FileSystemEventHandler):
                 if file_name.split('.')[-1] != "url":
                     continue
                 input_path = path.join(folder_file, file_name)
-                pdfThat(file_name.split(".")[0], input_path, output_path, PATH_wkhtmltopdf)
+                try:
+                    pdfThat(file_name.split(".")[0], input_path, output_path)
+                except:
+                    except_orig_path=path.join(SOURCE_PATH, file_name)
+                    except_dust_path=path.join(SOURCE_PATH,"Couldent Convert", file_name)
+                    move(except_orig_path, except_dust_path)
+                    print("couldent convert.")
+                    toast.show_toast("Link2PDF", "couldent convert \"{}\" URL.".format(str(file_name.split(".")[0])))
+                
                 if os.path.isfile(input_path):
                     path_name=path.join(output_path,"URL", file_name)
                     move(input_path, path_name)
@@ -79,7 +87,6 @@ class Handler(FileSystemEventHandler):
 if __name__ == '__main__':
     SOURCE_PATH = argv[1]  # source directory
     output_path = argv[2]  # target directory
-    PATH_wkhtmltopdf = argv[3]  # wkhtmltopdf.exe path in your computer
 
     print("Link2PDF now running.")
     toast = ToastNotifier()
@@ -89,6 +96,8 @@ if __name__ == '__main__':
         os.makedirs(path.join(output_path, "URL"))
     if not os.path.exists(path.join(output_path, "PDF")):
         os.makedirs(path.join(output_path, "PDF"))
+    if not os.path.exists(path.join(SOURCE_PATH, "Couldent Convert")):
+        os.makedirs(path.join(SOURCE_PATH, "Couldent Convert"))
         
     watch = OnMyWatch(SOURCE_PATH)
     watch.run()
