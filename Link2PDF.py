@@ -14,8 +14,8 @@ from win10toast import ToastNotifier
 def pdfThat(name, input_path, output_path, PATH_wkhtmltopdf):
     option = {'encoding': 'UTF-8', 'enable-local-file-access': True}
     config = pdfkit.configuration(wkhtmltopdf=PATH_wkhtmltopdf)
-    path_name = path.join(output_path, name + ".pdf")
-    path_default = path.join(output_path, "temporary.pdf")
+    path_name = path.join(output_path,"PDF", name + ".pdf")
+    path_default = path.join(output_path,"PDF", "temporary.pdf")
 
     pdfkit.from_url(extractURL(input_path), path_default, options=option, configuration=config)
     move(path_default, path_name)
@@ -69,7 +69,8 @@ class Handler(FileSystemEventHandler):
                 input_path = path.join(folder_file, file_name)
                 pdfThat(file_name.split(".")[0], input_path, output_path, PATH_wkhtmltopdf)
                 if os.path.isfile(input_path):
-                    os.remove(input_path)
+                    path_name=path.join(output_path,"URL", file_name)
+                    move(input_path, path_name)
                     toast.show_toast("Link2PDF", "\"{}\" has converted.".format(str(file_name.split(".")[0])))
         elif event.event_type == 'deleted':
             print("File has deleted!")
@@ -84,5 +85,10 @@ if __name__ == '__main__':
     toast = ToastNotifier()
     toast.show_toast("Link2PDF", "The program has started")
 
+    if not os.path.exists(path.join(output_path, "URL")):
+        os.makedirs(path.join(output_path, "URL"))
+    if not os.path.exists(path.join(output_path, "PDF")):
+        os.makedirs(path.join(output_path, "PDF"))
+        
     watch = OnMyWatch(SOURCE_PATH)
     watch.run()
