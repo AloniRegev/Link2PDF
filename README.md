@@ -1,5 +1,5 @@
 # Link2PDF
-Automation to convert URL file from source directory to PDF file in target directory.
+An automation program that transforms a file's URL from a source directory into a PDF file located in a target directory.
 
 ## Installations:
 1. [wkhtmltopdf](https://wkhtmltopdf.org/downloads.html) execution file.
